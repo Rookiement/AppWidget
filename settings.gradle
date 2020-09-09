@@ -1,2 +1,3 @@
+include ':ARecyclerView'
 include ':app'
 rootProject.name = "AppWidget"
