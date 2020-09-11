@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.recyclerview.AppRecyclerView;
-import com.example.recyclerview.adapter.AppSingleAdapter;
+import com.example.recyclerview.adapter.AppSingleTypeAdapter;
 import com.example.recyclerview.viewholder.AppViewHolder;
 import com.example.widget.BaseActivity;
 import com.example.widget.R;
@@ -34,7 +34,7 @@ public class RecyclerViewListActivity extends BaseActivity {
     protected void onCreateInitWithState(Bundle savedInstanceState) {
         AppRecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        AppSingleAdapter<String> adapter = new AppSingleAdapter<String>(R.layout.item_recycler_list) {
+        AppSingleTypeAdapter<String> adapter = new AppSingleTypeAdapter<String>(R.layout.item_recycler_list) {
             @Override
             public void onInitViewHolderWhenCreated(@NonNull AppViewHolder<String> holder) {
                 holder.setOnClickListener(R.id.item_content, new View.OnClickListener() {

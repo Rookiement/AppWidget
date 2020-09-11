@@ -1,6 +1,6 @@
 package com.example.recyclerview.adapter;
 
-import com.example.recyclerview.viewholder.AppViewHolder;
+import com.example.recyclerview.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,62 +9,48 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * @param <T>
- * @author reber
- */
-public abstract class AppAdapter<T> extends RecyclerView.Adapter<AppViewHolder<T>> {
+public abstract class BaseAppAdapter<M, T> extends RecyclerView.Adapter<BaseViewHolder<T>> {
 
-    private final List<T> mAdapterList;
+    private final List<M> mAdapterList;
 
-    public AppAdapter() {
+    public BaseAppAdapter() {
         this(false);
     }
 
-    public AppAdapter(boolean hasStabledIds) {
+    public BaseAppAdapter(boolean hasStabledIds) {
         this.mAdapterList = new ArrayList<>();
         setHasStableIds(hasStabledIds);
     }
 
-    public AppAdapter(@NonNull List<T> adapterList,boolean hasStabledIds) {
-        this.mAdapterList = new ArrayList<>();
-        setHasStableIds(hasStabledIds);
+    public BaseAppAdapter(@NonNull List<M> adapterList) {
+        this.mAdapterList = adapterList;
     }
 
-    public List<T> getAdapterList() {
+    public List<M> getAdapterList() {
         return mAdapterList;
     }
 
-    public T getItemWithPosition(int position) {
-        return mAdapterList.get(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mAdapterList.size();
-    }
-
     /*=============================单个插入Item======================*/
-    public void insertItem(T item) {
+    public void insertItem(M item) {
         if (item != null) {
-            insertItemWhenNotEmpty(item);
+            insertItemWhenNotEmpty(item, getItemCount());
         }
     }
 
-    public void insertItemNotify(T item) {
+    public void insertItemNotify(M item) {
         if (item != null) {
-            insertItemWhenNotEmpty(item);
+            insertItemWhenNotEmpty(item, getItemCount());
             notifyItemChanged(getItemCount());
         }
     }
 
-    public void insertItem(T item, int position) {
+    public void insertItem(M item, int position) {
         if (item != null) {
             insertItemWhenNotEmpty(item, position);
         }
     }
 
-    public void insertItemNotify(T item, int position) {
+    public void insertItemNotify(M item, int position) {
         if (item != null) {
             insertItemWhenNotEmpty(item, position);
             notifyItemChanged(position);
@@ -72,33 +58,33 @@ public abstract class AppAdapter<T> extends RecyclerView.Adapter<AppViewHolder<T
     }
 
     /*==============================插入列表=========================*/
-    public void insertItemList(T[] itemList) {
+    public void insertItemList(M[] itemList) {
         if (itemList != null && itemList.length > 0) {
             insertItemListWhenNotEmpty(Arrays.asList(itemList));
         }
     }
 
-    public void insertItemListNotify(T[] itemList) {
+    public void insertItemListNotify(M[] itemList) {
         if (itemList != null && itemList.length > 0) {
             insertItemListWhenNotEmpty(Arrays.asList(itemList));
             notifyItemRangeInserted(getItemCount(), itemList.length);
         }
     }
 
-    public void insertItemList(List<T> itemList) {
+    public void insertItemList(List<M> itemList) {
         if (itemList != null && !itemList.isEmpty()) {
             insertItemListWhenNotEmpty(itemList);
         }
     }
 
-    public void insertItemListNotify(List<T> itemList) {
+    public void insertItemListNotify(List<M> itemList) {
         if (itemList != null && !itemList.isEmpty()) {
             insertItemListWhenNotEmpty(itemList);
             notifyItemRangeInserted(mAdapterList.size(), itemList.size());
         }
     }
 
-    public void addNewItemListNotify(T[] itemList) {
+    public void addNewItemListNotify(M[] itemList) {
         mAdapterList.clear();
         if (itemList != null && itemList.length > 0) {
             insertItemListWhenNotEmpty(Arrays.asList(itemList));
@@ -106,7 +92,7 @@ public abstract class AppAdapter<T> extends RecyclerView.Adapter<AppViewHolder<T
         notifyDataSetChanged();
     }
 
-    public void addNewItemListNotify(List<T> itemList) {
+    public void addNewItemListNotify(List<M> itemList) {
         mAdapterList.clear();
         if (itemList != null && !itemList.isEmpty()) {
             insertItemListWhenNotEmpty(itemList);
@@ -114,15 +100,16 @@ public abstract class AppAdapter<T> extends RecyclerView.Adapter<AppViewHolder<T
         notifyDataSetChanged();
     }
 
-    protected void insertItemWhenNotEmpty(@NonNull T item) {
-        mAdapterList.add(item);
-    }
-
-    protected void insertItemWhenNotEmpty(@NonNull T item, int position) {
+    protected void insertItemWhenNotEmpty(@NonNull M item, int position) {
         mAdapterList.add(position, item);
     }
 
-    protected void insertItemListWhenNotEmpty(@NonNull List<T> itemList) {
+    protected void insertItemListWhenNotEmpty(@NonNull List<M> itemList) {
         mAdapterList.addAll(itemList);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mAdapterList.size();
     }
 }

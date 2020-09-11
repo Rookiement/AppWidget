@@ -12,15 +12,15 @@ import androidx.annotation.NonNull;
  * @param <T>
  * @author reber
  */
-public abstract class AppSingleAdapter<T> extends AppAdapter<T> {
+public abstract class AppSingleTypeAdapter<T> extends AppAdapter<T> {
 
     private final int mItemLayoutResId;
 
-    public AppSingleAdapter(@LayoutRes int itemLayoutResId) {
+    public AppSingleTypeAdapter(@LayoutRes int itemLayoutResId) {
         this(itemLayoutResId, false);
     }
 
-    public AppSingleAdapter(@LayoutRes int itemLayoutResId, boolean hasStabledIds) {
+    public AppSingleTypeAdapter(@LayoutRes int itemLayoutResId, boolean hasStabledIds) {
         super(hasStabledIds);
         this.mItemLayoutResId = itemLayoutResId;
     }
